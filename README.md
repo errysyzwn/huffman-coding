@@ -25,21 +25,23 @@ This project implements the Huffman coding algorithm in Python. It allows users 
 
 ## Project Structure
 
+This project an extended project from part A. The part A to calculate the huffman by tradional method.
+
+![Part A](./image/part_a.png)
 
 ## Sample Output and Reference
 
-A sample output from the program is shown below, demonstrating the Huffman coding process for the input string "ERRY":
+A sample output from the program is shown below, demonstrating the Huffman coding process for the input string "AERIOUSEA":
 
 ![Sample Output](./image/sample_output.png)
 
-This project is a continuation of a larger project where the Huffman coding is part of a broader analysis of data compression techniques. The reference for the project can be found in the "Project Part A" section, where the results of the Huffman coding are compared against theoretical calculations.
 
 ## How to Run the Project
 
 1. Clone this repository:
 
     ```bash
-    git clone https://github.com/your-username/huffman-coding.git
+    git clone https://github.com/errysyzwn/huffman-coding.git
     ```
 
 2. Navigate into the project directory:
@@ -51,7 +53,7 @@ This project is a continuation of a larger project where the Huffman coding is p
 3. Run the Python script:
 
     ```bash
-    python huffman_coding.py
+    python huffman-code.py
     ```
 
 4. Enter a string when prompted, and the program will output the Huffman codes, as well as the average code length, entropy, and efficiency.
