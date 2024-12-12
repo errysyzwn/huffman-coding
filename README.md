@@ -24,3 +24,44 @@ This project implements the Huffman coding algorithm in Python. It allows users 
 - **Sample Output**: The project also includes a sample output that demonstrates the process and results for a given input.
 
 ## Project Structure
+
+```vbnet
+## Sample Output and Reference
+
+A sample output from the program is shown below, demonstrating the Huffman coding process for the input string "ERRY":
+
+![Sample Output](./image/sample_output.png)
+
+This project is a continuation of a larger project where the Huffman coding is part of a broader analysis of data compression techniques. The reference for the project can be found in the "Project Part A" section, where the results of the Huffman coding are compared against theoretical calculations.
+
+## How to Run the Project
+
+1. Clone this repository:
+
+    ```bash
+    git clone https://github.com/your-username/huffman-coding.git
+    ```
+
+2. Navigate into the project directory:
+
+    ```bash
+    cd huffman-coding
+    ```
+
+3. Run the Python script:
+
+    ```bash
+    python huffman_coding.py
+    ```
+
+4. Enter a string when prompted, and the program will output the Huffman codes, as well as the average code length, entropy, and efficiency.
+
+## How it Works
+
+The program is structured as follows:
+1. **Input**: A string (e.g., a name or any text).
+2. **Frequency Calculation**: The program calculates the frequency of each character in the string.
+3. **Huffman Tree Construction**: A priority queue is used to build the Huffman tree.
+4. **Code Generation**: The tree is traversed to assign binary codes to each character.
+5. **Metrics Calculation**: The program calculates average code length, entropy, and efficiency.
+6. **Output**: The program displays the results in a formatted table and provides the calculated metrics.
