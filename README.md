@@ -25,7 +25,7 @@ This project implements the Huffman coding algorithm in Python. It allows users 
 
 ## Project Structure
 
-```vbnet
+
 ## Sample Output and Reference
 
 A sample output from the program is shown below, demonstrating the Huffman coding process for the input string "ERRY":
