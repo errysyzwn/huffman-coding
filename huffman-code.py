@@ -1,4 +1,8 @@
-import heapq, math
+import heapq
+import math
+import tkinter as tk
+from tkinter import ttk, messagebox
+from tkinter import Canvas
 
 class Node:
     def __init__(self, symbol=None, frequency=None):
@@ -46,32 +50,126 @@ def calculate_frequencies(input_string):
     freq = [count / total_chars for count in char_counts.values()]
     return chars, freq, char_counts
 
-input_string = input("Enter a text fragment: ").strip()
-chars, freq, char_counts = calculate_frequencies(input_string)
-root = build_huffman_tree(chars, freq)
-huffman_codes = generate_huffman_codes(root)
-sorted_huffman_codes = sorted(huffman_codes.items(), key=lambda item: (len(item[1]), -char_counts[item[0]]))
+def calculate_huffman(input_string):
+    chars, freq, char_counts = calculate_frequencies(input_string)
+    root = build_huffman_tree(chars, freq)
+    huffman_codes = generate_huffman_codes(root)
 
-average_code_length = sum(frequency * len(huffman_codes[char]) for char, frequency in zip(chars, freq))
-entropy = sum(frequency * math.log2(1 / frequency) for frequency in freq)
-efficiency = entropy / average_code_length
+    sorted_huffman_codes = sorted(huffman_codes.items(), key=lambda item: (len(item[1]), chars.index(item[0])))
 
-print("\n" + "-" * 50)
-print(f"{'Symbols (Frequency)':<25}{'Code':<10}{'Length':<10}")
-print("-" * 50)
-for char, code in sorted_huffman_codes:
-    frequency = f"{char_counts[char]}/{len(input_string)}"
-    length = len(code)
-    print(f"    {char.upper()} ({frequency})\t\t  {code:<10} {length:<10}")
-print("-" * 50)
-print("Encode Table".center(50,' '))
+    average_code_length = sum(frequency * len(huffman_codes[char]) for char, frequency in zip(chars, freq))
+    entropy = sum(frequency * math.log2(1 / frequency) for frequency in freq)
+    efficiency = entropy / average_code_length
 
-print("\nAverage Code Length:")
-print("= Σ (frequency * code length)")
-print(f"= {average_code_length:.4f} bits")
-print("\nEntropy:")
-print("= Σ (frequency * log2(1 / frequency))")
-print(f"= {entropy:.4f} bits/symbol")
-print("\nEfficiency:")
-print("= Entropy / Average Code Length")
-print(f"= {efficiency * 100:.2f}%\n")
+    return root, sorted_huffman_codes, char_counts, average_code_length, entropy, efficiency
+
+def draw_huffman_tree(canvas, node, x, y, x_offset):
+    if node.left is not None:
+        canvas.create_line(x, y, x - x_offset, y + 50)
+        draw_huffman_tree(canvas, node.left, x - x_offset, y + 50, x_offset // 2)
+    if node.right is not None:
+        canvas.create_line(x, y, x + x_offset, y + 50)
+        draw_huffman_tree(canvas, node.right, x + x_offset, y + 50, x_offset // 2)
+
+    if node.symbol is not None:
+        canvas.create_oval(x - 15, y - 15, x + 15, y + 15, fill="lightblue")
+        canvas.create_text(x, y, text=node.symbol)
+    else:
+        canvas.create_oval(x - 15, y - 15, x + 15, y + 15, fill="lightgray")
+        canvas.create_text(x, y, text=f"{node.frequency:.2f}")
+
+def on_calculate():
+    input_text = text_input.get().strip()
+    if not input_text:
+        messagebox.showerror("Error", "Please enter a valid text fragment.")
+        return
+
+    root_node, sorted_codes, char_counts, avg_length, entropy, efficiency = calculate_huffman(input_text)
+
+    # Clear previous table data
+    for row in table.get_children():
+        table.delete(row)
+
+    # Populate the table with new data
+    for char, code in sorted_codes:
+        frequency = f"{char_counts[char]}/{len(input_text)}"
+        table.insert("", "end", values=(char.upper(), frequency, code, len(code)))
+
+    avg_code_length_var.set(f"{avg_length:.4f} bits")
+    entropy_var.set(f"{entropy:.4f} bits/symbol")
+    efficiency_var.set(f"{efficiency * 100:.2f}%")
+
+    # Clear and redraw the Huffman Tree
+    canvas.delete("all")
+    canvas.config(scrollregion=(0, 0, 800, 800))  # Dynamically adjust scroll region
+    draw_huffman_tree(canvas, root_node, 400, 20, 200)
+
+# GUI setup
+root = tk.Tk()
+root.title("Huffman Coding Application")
+
+# Input Frame
+input_frame = ttk.Frame(root, padding="10")
+input_frame.grid(row=0, column=0, sticky="EW")
+ttk.Label(input_frame, text="Enter a text fragment:").grid(row=0, column=0, sticky="W")
+text_input = ttk.Entry(input_frame, width=40)
+text_input.grid(row=0, column=1, padx=5)
+ttk.Button(input_frame, text="Find", command=on_calculate).grid(row=0, column=2, padx=5)
+
+# Tree and Table Frame
+main_frame = ttk.Frame(root, padding="10")
+main_frame.grid(row=1, column=0, sticky="NSEW")
+
+# Huffman Tree Canvas
+canvas_frame = ttk.Frame(main_frame)
+canvas_frame.grid(row=0, column=0, sticky="NSEW", padx=5, pady=5)
+canvas = Canvas(canvas_frame, width=800, height=250, bg="white")
+canvas.grid(row=0, column=0, sticky="NSEW")
+canvas_scroll = ttk.Scrollbar(canvas_frame, orient="vertical", command=canvas.yview)
+canvas_scroll.grid(row=0, column=1, sticky="NS")
+canvas.configure(yscrollcommand=canvas_scroll.set)
+
+# Output Table
+columns = ("Symbol", "Frequency", "Code", "Length")
+table_frame = ttk.Frame(main_frame)
+table_frame.grid(row=1, column=0, sticky="NSEW", padx=5, pady=5)
+table = ttk.Treeview(table_frame, columns=columns, show="headings", height=10)
+for col in columns:
+    table.heading(col, text=col)
+    table.column(col, anchor="center", width=100)
+table.grid(row=0, column=0, sticky="NSEW")
+
+# Scrollbar for the table
+scrollbar = ttk.Scrollbar(table_frame, orient="vertical", command=table.yview)
+scrollbar.grid(row=0, column=1, sticky="NS")
+table.configure(yscrollcommand=scrollbar.set)
+
+# Results Frame
+results_frame = ttk.Frame(root, padding="10")
+results_frame.grid(row=2, column=0, sticky="EW")
+
+avg_code_length_var = tk.StringVar()
+entropy_var = tk.StringVar()
+efficiency_var = tk.StringVar()
+
+# Display Metrics
+metrics = ["Average Code Length", "Entropy", "Efficiency"]
+vars = [avg_code_length_var, entropy_var, efficiency_var]
+for i, metric in enumerate(metrics):
+    ttk.Label(results_frame, text=f"{metric}:").grid(row=i, column=0, sticky="W")
+    ttk.Label(results_frame, textvariable=vars[i]).grid(row=i, column=1, sticky="W")
+
+# Formula Display
+formula_frame = ttk.Frame(root, padding="10")
+formula_frame.grid(row=3, column=0, sticky="EW")
+ttk.Label(formula_frame, text="Formulas:").grid(row=0, column=0, sticky="W")
+ttk.Label(formula_frame, text="1. Average Code Length (L) = Σ (frequency * code length)").grid(row=1, column=0, sticky="W")
+ttk.Label(formula_frame, text="2. Entropy (H) = Σ (frequency * log2(1 / frequency))").grid(row=2, column=0, sticky="W")
+ttk.Label(formula_frame, text="3. Efficiency (η) = H / L").grid(row=3, column=0, sticky="W")
+
+# Configure resizing
+root.columnconfigure(0, weight=1)
+main_frame.columnconfigure(0, weight=1)
+root.rowconfigure(1, weight=1)
+
+root.mainloop()

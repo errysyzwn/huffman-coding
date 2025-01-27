@@ -38,6 +38,8 @@ A sample output from the program is shown below, demonstrating the Huffman codin
 
 ## How to Run the Project
 
+This project are using python language and library tabulate. In this project i using python 3.10 for intergrating with tabulate. you can see tabulate documentation on [text](https://pypi.org/project/tabulate/)
+
 1. Clone this repository:
 
     ```bash
@@ -50,7 +52,14 @@ A sample output from the program is shown below, demonstrating the Huffman codin
     cd huffman-coding
     ```
 
-3. Run the Python script:
+3. Install tabulate
+    
+    ```bash
+    pip install tabulate
+    pip install tabulate --user
+    ```
+
+4. Run the Python script:
 
     ```bash
     python huffman-code.py
