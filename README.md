@@ -2,77 +2,87 @@
 
 ## Overview
 
-Huffman coding is a popular algorithm used for lossless data compression. It is widely used in various file compression formats such as `.zip`, `.png`, and `.mp3`. The algorithm assigns variable-length codes to input characters based on their frequencies. More frequent characters get shorter codes, while less frequent characters get longer codes, optimizing the storage and transmission of data.
+Huffman coding is a widely used algorithm for lossless data compression. It assigns variable-length binary codes to characters based on their frequencies. Frequently occurring characters are assigned shorter codes, while less frequent characters receive longer codes. This optimization minimizes the overall storage or transmission size of data.
 
-The process of building the Huffman tree involves:
-1. Constructing a frequency table for the characters in the input data.
-2. Using the table to build a binary tree, where each leaf node represents a character and its frequency.
-3. Traversing the tree to assign binary codes to each character.
-4. Calculating the average code length, entropy, and efficiency of the generated Huffman codes.
+The process involves:
+1. Constructing a frequency table for the characters in the input.
+2. Building a binary tree, with each leaf representing a character and its frequency.
+3. Traversing the tree to assign binary codes to characters.
+4. Calculating metrics such as average code length, entropy, and efficiency to evaluate the coding performance.
 
-## Project Overview
+## Project Description
 
-This project implements the Huffman coding algorithm in Python. It allows users to input a string (e.g., a name) and computes the corresponding Huffman codes. The project also calculates and displays key metrics such as the average code length, entropy, and efficiency of the generated codes.
+This project is a Python-based implementation of the Huffman coding algorithm. It features a graphical user interface (GUI) that enables users to input a text fragment, view the corresponding Huffman tree, and analyze various metrics related to the generated Huffman codes.
 
 ### Features:
-- **Huffman Code Generation**: Given a string, the project generates Huffman codes based on the frequency of each character.
-- **Metrics Calculation**: It calculates:
-  - Average code length (the weighted average of the lengths of the Huffman codes).
-  - Entropy (a measure of the information content of the source).
-  - Efficiency (the ratio of entropy to average code length).
-- **Output Formatting**: The results are displayed in a formatted table, with the Huffman codes sorted by code length (ascending) and frequency (descending).
-- **Sample Output**: The project also includes a sample output that demonstrates the process and results for a given input.
+- **Huffman Code Generation**: Generates Huffman codes for an input string based on character frequency.
+- **Metrics Calculation**:
+  - **Average Code Length**: The weighted average of the lengths of the generated Huffman codes.
+  - **Entropy**: A measure of the information content of the source.
+  - **Efficiency**: The ratio of entropy to average code length, expressed as a percentage.
+- **Graphical Display**:
+  - Visual representation of the Huffman tree.
+  - A tabular display of characters, frequencies, Huffman codes, and their lengths.
+- **Formulas for Metrics**: Displays the mathematical formulas used for the calculations.
 
-## Project Structure
+## How to Use
 
-This project an extended project from part A. The part A to calculate the huffman by tradional method.
+### Prerequisites:
+1. Python 3.10 or later.
+2. The `tkinter` library (pre-installed with most Python distributions).
 
-![Part A](./image/part_a.png)
-
-## Sample Output and Reference
-
-A sample output from the program is shown below, demonstrating the Huffman coding process for the input string "AERIOUSEA":
-
-![Sample Output](./image/sample_output.png)
-
-
-## How to Run the Project
-
-This project are using python language and library tabulate. In this project i using python 3.10 for intergrating with tabulate. you can see tabulate documentation on [text](https://pypi.org/project/tabulate/)
-
-1. Clone this repository:
-
+### Steps:
+1. Clone the repository:
     ```bash
     git clone https://github.com/errysyzwn/huffman-coding.git
     ```
-
-2. Navigate into the project directory:
-
+2. Navigate to the project directory:
     ```bash
     cd huffman-coding
     ```
-
-3. Install tabulate
-    
+3. Run the Python script:
     ```bash
-    pip install tabulate
-    pip install tabulate --user
+    python huffman-coding.py
     ```
+4. Enter a text fragment in the input box and click "Find" to generate the Huffman tree and codes.
 
-4. Run the Python script:
+## Outputs
 
-    ```bash
-    python huffman-code.py
-    ```
+### Example Input:
+- Input String: `AERIOUSEA`
 
-4. Enter a string when prompted, and the program will output the Huffman codes, as well as the average code length, entropy, and efficiency.
+### Results:
+- **Tree Visualization**: Displays the Huffman tree, with nodes labeled by character or frequency.
+- **Table**: Lists each character, its frequency, Huffman code, and code length.
+- **Metrics**:
+  - Average Code Length: `2.50 bits`
+  - Entropy: `2.32 bits/symbol`
+  - Efficiency: `92.80%`
 
-## How it Works
+### Screenshots:
+1. **Part A - Frequency Calculation**:
+   ![Part A](./image/part_a.png)
 
-The program is structured as follows:
-1. **Input**: A string (e.g., a name or any text).
-2. **Frequency Calculation**: The program calculates the frequency of each character in the string.
-3. **Huffman Tree Construction**: A priority queue is used to build the Huffman tree.
-4. **Code Generation**: The tree is traversed to assign binary codes to each character.
-5. **Metrics Calculation**: The program calculates average code length, entropy, and efficiency.
-6. **Output**: The program displays the results in a formatted table and provides the calculated metrics.
+2. **Sample Output**:
+   ![Sample Output](./image/sample_output.png)
+
+## Metrics Calculations
+- **Average Code Length (L)**:
+  \[ L = \sum_{i} (f_i \times \text{code\_length}_i) \]
+
+- **Entropy (H)**:
+  \[ H = \sum_{i} (f_i \times \log_2(1 / f_i)) \]
+
+- **Efficiency (\u03B7)**:
+  \[ \u03B7 = \frac{H}{L} \]
+
+Where:
+- \( f_i \): Frequency of the \( i \)-th character.
+- \( \text{code\_length}_i \): Length of the Huffman code for the \( i \)-th character.
+
+## Project Structure
+- **`huffman-coding.py`**: The main Python script for the GUI and algorithm.
+- **`/image`**: Directory containing screenshots and visual assets.
+
+## Acknowledgments
+This project is an extended implementation based on the traditional method of calculating Huffman codes ("Part A"). It integrates modern GUI features to make it more interactive and accessible.
