@@ -67,18 +67,16 @@ This project is a Python-based implementation of the Huffman coding algorithm. I
    ![Sample Output](./image/sample_output.png)
 
 ## Metrics Calculations
-- **Average Code Length (L)**:
-  \[ L = \sum_{i} (f_i \times \text{code\_length}_i) \]
+- **Average Code Length (L)**: `sum (frequency * code length)`
 
-- **Entropy (H)**:
-  \[ H = \sum_{i} (f_i \times \log_2(1 / f_i)) \]
+- **Entropy (H)**: `sum (frequency * log2 (1/frequency))`
 
-- **Efficiency (\u03B7)**:
-  \[ \u03B7 = \frac{H}{L} \]
+- **Efficiency (\u03B7)**: `H/L`
 
 Where:
-- \( f_i \): Frequency of the \( i \)-th character.
-- \( \text{code\_length}_i \): Length of the Huffman code for the \( i \)-th character.
+
+- : Frequency of the -th character.
+- : Length of the Huffman code for the -th character.
 
 ## Project Structure
 - **`huffman-coding.py`**: The main Python script for the GUI and algorithm.

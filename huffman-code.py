@@ -86,11 +86,9 @@ def on_calculate():
 
     root_node, sorted_codes, char_counts, avg_length, entropy, efficiency = calculate_huffman(input_text)
 
-    # Clear previous table data
     for row in table.get_children():
         table.delete(row)
 
-    # Populate the table with new data
     for char, code in sorted_codes:
         frequency = f"{char_counts[char]}/{len(input_text)}"
         table.insert("", "end", values=(char.upper(), frequency, code, len(code)))
@@ -99,16 +97,13 @@ def on_calculate():
     entropy_var.set(f"{entropy:.4f} bits/symbol")
     efficiency_var.set(f"{efficiency * 100:.2f}%")
 
-    # Clear and redraw the Huffman Tree
     canvas.delete("all")
-    canvas.config(scrollregion=(0, 0, 800, 800))  # Dynamically adjust scroll region
+    canvas.config(scrollregion=(0, 0, 800, 800))
     draw_huffman_tree(canvas, root_node, 400, 20, 200)
 
-# GUI setup
 root = tk.Tk()
 root.title("Huffman Coding Application")
 
-# Input Frame
 input_frame = ttk.Frame(root, padding="10")
 input_frame.grid(row=0, column=0, sticky="EW")
 ttk.Label(input_frame, text="Enter a text fragment:").grid(row=0, column=0, sticky="W")
@@ -116,11 +111,9 @@ text_input = ttk.Entry(input_frame, width=40)
 text_input.grid(row=0, column=1, padx=5)
 ttk.Button(input_frame, text="Find", command=on_calculate).grid(row=0, column=2, padx=5)
 
-# Tree and Table Frame
 main_frame = ttk.Frame(root, padding="10")
 main_frame.grid(row=1, column=0, sticky="NSEW")
 
-# Huffman Tree Canvas
 canvas_frame = ttk.Frame(main_frame)
 canvas_frame.grid(row=0, column=0, sticky="NSEW", padx=5, pady=5)
 canvas = Canvas(canvas_frame, width=800, height=250, bg="white")
@@ -129,7 +122,6 @@ canvas_scroll = ttk.Scrollbar(canvas_frame, orient="vertical", command=canvas.yv
 canvas_scroll.grid(row=0, column=1, sticky="NS")
 canvas.configure(yscrollcommand=canvas_scroll.set)
 
-# Output Table
 columns = ("Symbol", "Frequency", "Code", "Length")
 table_frame = ttk.Frame(main_frame)
 table_frame.grid(row=1, column=0, sticky="NSEW", padx=5, pady=5)
@@ -139,12 +131,10 @@ for col in columns:
     table.column(col, anchor="center", width=100)
 table.grid(row=0, column=0, sticky="NSEW")
 
-# Scrollbar for the table
 scrollbar = ttk.Scrollbar(table_frame, orient="vertical", command=table.yview)
 scrollbar.grid(row=0, column=1, sticky="NS")
 table.configure(yscrollcommand=scrollbar.set)
 
-# Results Frame
 results_frame = ttk.Frame(root, padding="10")
 results_frame.grid(row=2, column=0, sticky="EW")
 
@@ -152,14 +142,12 @@ avg_code_length_var = tk.StringVar()
 entropy_var = tk.StringVar()
 efficiency_var = tk.StringVar()
 
-# Display Metrics
 metrics = ["Average Code Length", "Entropy", "Efficiency"]
 vars = [avg_code_length_var, entropy_var, efficiency_var]
 for i, metric in enumerate(metrics):
     ttk.Label(results_frame, text=f"{metric}:").grid(row=i, column=0, sticky="W")
     ttk.Label(results_frame, textvariable=vars[i]).grid(row=i, column=1, sticky="W")
 
-# Formula Display
 formula_frame = ttk.Frame(root, padding="10")
 formula_frame.grid(row=3, column=0, sticky="EW")
 ttk.Label(formula_frame, text="Formulas:").grid(row=0, column=0, sticky="W")
@@ -167,7 +155,6 @@ ttk.Label(formula_frame, text="1. Average Code Length (L) = Σ (frequency * code
 ttk.Label(formula_frame, text="2. Entropy (H) = Σ (frequency * log2(1 / frequency))").grid(row=2, column=0, sticky="W")
 ttk.Label(formula_frame, text="3. Efficiency (η) = H / L").grid(row=3, column=0, sticky="W")
 
-# Configure resizing
 root.columnconfigure(0, weight=1)
 main_frame.columnconfigure(0, weight=1)
 root.rowconfigure(1, weight=1)
